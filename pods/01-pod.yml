@@ -8,7 +8,6 @@
 #    - name: nginx
 #      image: nginx
 
-----
 # here we are creating two container in a pod
 kind: Pod
 apiVersion: v1
