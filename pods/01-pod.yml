@@ -1,8 +1,22 @@
+# here we are creating a single container in a pod
+#kind: Pod
+#apiVersion: v1
+#metadata:
+#  name: sample1
+#spec:
+#  containers:
+#    - name: nginx
+#      image: nginx
+
+----
+# here we are creating two container in a pod
 kind: Pod
 apiVersion: v1
 metadata:
-  name: sample1
+  name: sample2
 spec:
   containers:
     - name: nginx
       image: nginx
+    - name: mongodb
+      image: mongo
