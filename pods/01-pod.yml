@@ -101,5 +101,5 @@ spec:
       image: centos:7
       command: ["sleep", "10000"]
       envFrom:
-        - SecretRef:
+        - secretRef:
             name: secret1
