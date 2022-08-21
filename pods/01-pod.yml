@@ -48,7 +48,7 @@
 #          cpu: 5000
 #herewe are also crating one container with the env variable URL and with the value
 kind: Pod
-apiVersion:v1
+apiVersion: v1
 metadata:
   name: sample5
 spec:
