@@ -46,7 +46,7 @@
 #      resources:
 #        requests:
 #          cpu: 5000
-#herewe are also crating one container with the env variable URL and with the value
+#herewe are also crating one container with the env variable URL and with the value and kubectl exec -it sample3 -c centos -- bash and then use env command
 #kind: Pod
 #apiVersion: v1
 #metadata:
@@ -83,23 +83,51 @@
 #            name: configmap1
 
 # here we are declearing the secrets with the encription format by using command line by giving command echo admin1 | base64 and to decode the user name we use command echo <encripted format> | base64 --decode
-kind: Secret
+#kind: Secret
+#apiVersion: v1
+#metadata:
+#  name: secret1
+#data:
+#  dbUsername: YWRtaW4x
+#  dbPassword: YWRtaW4xMjM0
+#---
+#kind: Pod
+#apiVersion: v1
+#metadata:
+#  name: sample7
+#spec:
+#  containers:
+#    - name: centos
+#      image: centos:7
+#      command: ["sleep", "10000"]
+#      envFrom:
+#        - secretRef:
+#            name: secret1
+
+# here we are checking the health check of the container by this it will automatically check the health of a container for 30 secounds and it didn't came up it will kill the container and create a new container.
 apiVersion: v1
-metadata:
-  name: secret1
-data:
-  dbUsername: YWRtaW4x
-  dbPassword: YWRtaW4xMjM0
----
 kind: Pod
-apiVersion: v1
 metadata:
-  name: sample7
+  name: sample8
 spec:
   containers:
-    - name: centos
-      image: centos:7
-      command: ["sleep", "10000"]
-      envFrom:
-        - secretRef:
-            name: secret1
+    - name: liveness
+      image: k8s.gcr.io/busybox
+      args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 60
+      readinessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/healthy
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/healthy
+        initialDelaySeconds: 5
+        periodSeconds: 5
