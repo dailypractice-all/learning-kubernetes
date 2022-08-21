@@ -47,14 +47,37 @@
 #        requests:
 #          cpu: 5000
 #herewe are also crating one container with the env variable URL and with the value
+#kind: Pod
+#apiVersion: v1
+#metadata:
+#  name: sample5
+#spec:
+#  containers:
+#    - name: nginx
+#      image: nginx
+#      env:
+#        - name: URL
+#          value: example.com
+
+#
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: configmap1
+data:
+  URL: example.com
+  SUBDOMAIN: sample
+  FQDN: sample.example.com
+---
 kind: Pod
 apiVersion: v1
 metadata:
-  name: sample5
+  name: sample6
 spec:
   containers:
-    - name: nginx
-      image: nginx
-      env:
-        - name: URL
-          value: example.com
+    - name: centos
+      image: centos:7
+      command: ["sleep", "10000"]
+      envFrom:
+        - configMapRef:
+            name: configmap1
